@@ -11,8 +11,7 @@ function runProgram(obj) {
     }
 
     function playOneBet(betAmount) {
-        var winAmount = betAmount * 1;
-
+        var winAmount = betAmount;
         if (getPercentTrueFalse(winProbabiliy)) {
             return betAmount + winAmount;
         }
@@ -24,15 +23,12 @@ function runProgram(obj) {
         var currentAmount = initialAmount;
         for (var i = 0; i < amountOfTradesPerSession; i++) {
             var variableBetSize = currentAmount * oneBetPercentage,
-                oneBet = variableBetSize,
-                amountBeforeBet = currentAmount;
+                oneBet = variableBetSize;
 
             currentAmount = currentAmount - oneBet;
 
             //betting
             currentAmount = currentAmount + playOneBet(oneBet);
-
-//            console.log('Had:', amountBeforeBet, 'played:', oneBet, 'now on account:', currentAmount);
         }
 
         return currentAmount;
@@ -41,7 +37,6 @@ function runProgram(obj) {
     var endTradeAccounts = [];
     for (var i = 0; i < tradingSessions; i++) {
         var endedWithAmount = executeTradingSession(initialAmount, tradesPerSession, oneBetPercentage);
-//        console.log('Ended with', endedWithAmount);
         endTradeAccounts.push(endedWithAmount);
     }
 
@@ -56,11 +51,13 @@ function runProgram(obj) {
         total = total + oneEndAccount;
     }
 
+    var persentageWon = 100 * wonCount / tradingSessions;
+
     console.log('one bet:', oneBetPercentage * 100 + '%,',
         'win probabiliy:', winProbabiliy,
         ', average end acc:', total / endTradeAccounts.length,
-        ', % won', 100 * wonCount / tradingSessions,
-        ', % lost', 100 * (tradingSessions - wonCount) / tradingSessions);
+        ', % won', persentageWon,
+        ', % lost', 100 - persentageWon);
 }
 
 runProgram({
